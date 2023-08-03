@@ -6,6 +6,7 @@ import Split from "react-split"
 import {nanoid} from "nanoid"
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import './App.css';
+import { setOption } from "showdown"
 
 export default function App() {
     const [notes, setNotes] = React.useState(
@@ -56,10 +57,12 @@ export default function App() {
      *    can be passed in during the onClick event handler
      */
     
-    // function deleteNote(event, noteId) {
-    //     event.stopPropagation()
-    //     // Your code here
-    // }
+    function deleteNote(event, noteId) {
+        event.stopPropagation()
+        setNotes(oldNotes => oldNotes.filter((note) => {
+            return note.id !== noteId
+        })) 
+    }
     
     function findCurrentNote() {
         return notes.find(note => {
@@ -82,6 +85,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 
