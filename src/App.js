@@ -45,12 +45,12 @@ export default function App() {
 
 
     //debouncing
-    // React.useEffect(() => {
-    //     const timeoutId = setTimeout(() => {
-    //         updateNote(tempNoteText)
-    //     }, 500);
-    //     return () => clearTimeout(timeoutId)
-    // }, [tempNoteText])
+    React.useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            updateNote(tempNoteText)
+        }, 500);
+        return () => clearTimeout(timeoutId)
+    }, [tempNoteText])
     
 
     async function createNewNote() {
