@@ -2,7 +2,7 @@ import React from "react"
 import Sidebar from "./components/Sidebar"
 import Editor from "./components/Editor"
 import Split from "react-split"
-import {nanoid} from "nanoid"
+// import {nanoid} from "nanoid"
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import {onSnapshot, addDoc, doc, deleteDoc, setDoc} from "firebase/firestore";
 import { notesCollection, db } from "./firebase"
@@ -10,8 +10,9 @@ import './App.css';
 // import { setOption } from "showdown"
 
 export default function App() {
-    const [notes, setNotes] = React.useState([])
-    const [currentNoteId, setCurrentNoteId] = React.useState("")
+    const [notes, setNotes] = React.useState([]);
+    const [currentNoteId, setCurrentNoteId] = React.useState("");
+    const [tempNoteText, setTempNoteText] = React.useState("");
 
     const currentNote = notes.find(note => note.id === currentNoteId) || notes[0]
 
@@ -34,6 +35,22 @@ export default function App() {
             setCurrentNoteId(notes[0]?.id)
         }
     }, [notes])
+
+    React.useEffect(() => {
+        if(currentNote) {
+            setTempNoteText(currentNote.body)
+        }
+    }, [currentNote])
+
+
+
+    //debouncing
+    // React.useEffect(() => {
+    //     const timeoutId = setTimeout(() => {
+    //         updateNote(tempNoteText)
+    //     }, 500);
+    //     return () => clearTimeout(timeoutId)
+    // }, [tempNoteText])
     
 
     async function createNewNote() {
@@ -77,8 +94,8 @@ export default function App() {
                     deleteNote={deleteNote}
                 />
                 <Editor 
-                    currentNote={currentNote} 
-                    updateNote={updateNote} 
+                    tempNoteText ={tempNoteText} 
+                    setTempNoteText ={setTempNoteText} 
                 />
             </Split>
             :
