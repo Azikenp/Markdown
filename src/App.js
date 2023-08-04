@@ -4,6 +4,8 @@ import Editor from "./components/Editor"
 import Split from "react-split"
 import {nanoid} from "nanoid"
 import 'react-mde/lib/styles/css/react-mde-all.css';
+import {onSnapshot} from "firebase/firestore";
+import { notesCollection } from "./firebase"
 import './App.css';
 // import { setOption } from "showdown"
 
@@ -18,8 +20,12 @@ export default function App() {
     const currentNote = notes.find(note => note.id === currentNoteId) || notes[0]
     
     React.useEffect(() => {
-        localStorage.setItem("notes", JSON.stringify(notes))
-    }, [notes])
+        const unsubscribe =  onSnapshot(notesCollection, function(snapshot){
+            //sync up the local notes array with the snapshot data
+            console.log("things are changing");
+        })
+        return unsubscribe
+    }, [])
     
     function createNewNote() {
         const newNote = {
