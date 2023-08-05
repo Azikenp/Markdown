@@ -2,12 +2,10 @@ import React from "react"
 import Sidebar from "./components/Sidebar"
 import Editor from "./components/Editor"
 import Split from "react-split"
-// import {nanoid} from "nanoid"
 import 'react-mde/lib/styles/css/react-mde-all.css';
 import {onSnapshot, addDoc, doc, deleteDoc, setDoc} from "firebase/firestore";
 import { notesCollection, db } from "./firebase"
 import './App.css';
-// import { setOption } from "showdown"
 
 export default function App() {
     const [notes, setNotes] = React.useState([]);
@@ -47,6 +45,7 @@ export default function App() {
     //debouncing
     React.useEffect(() => {
         const timeoutId = setTimeout(() => {
+            if(tempNoteText !== currentNote)
             updateNote(tempNoteText)
         }, 500);
         return () => clearTimeout(timeoutId)
